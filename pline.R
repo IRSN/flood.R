@@ -46,7 +46,7 @@ pline_fun = function(p_m=NULL, p_01=NULL, .points = .coords_points, .z = .z_poin
 #' print_pline01(0.1)
 print_pline01 = function(p_01,...) trimws(paste0(paste0(pline_fun(p_01,p_m=NULL,...),collapse=" "),"\n"))
 
-print_pline01_seq = function(p0=0,p1=1,n=50) trimws(paste0(collapse="\n",Vectorize(print_pline01)(seq(f=p0,t=p1,l=n))))
+print_pline01_seq = function(p0=0,p1=1,n=50,...) trimws(paste0(collapse="\n",Vectorize(print_pline01)(seq(f=p0,t=p1,l=n),...)))
 
 #' @test
 #' plot(points)
@@ -54,4 +54,4 @@ print_pline01_seq = function(p0=0,p1=1,n=50) trimws(paste0(collapse="\n",Vectori
 #' print_pline(100)
 print_pline = function(p_m,...) trimws(paste0(paste0(pline_fun(p_m,p_01=NULL,...),collapse=" "),"\n"))
 
-print_pline_seq = function(p_m0=0,p_m1=100,n=50) trimws(paste0(collapse="\n",Vectorize(print_pline)(seq(f=p_m0,t=p_m1,l=n))))
+print_pline_seq = function(p_m0=0,p_m1=100,n=50,...) trimws(paste0(collapse="\n",Vectorize(print_pline)(seq(f=p_m0,t=p_m1,l=n),...)))
