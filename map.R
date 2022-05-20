@@ -1,6 +1,11 @@
-# coord converter function (assumed linear)
+#'' coord converter function (assumed linear)
+#' @test lonlat = xy2lonlat(xy1=c(664649.1875,	6736072.5),
+#'                          lonlat1=c(2.528116,47.723969),
+#'                          xy2=c(635994.0,	6750523.0),
+#'                          lonlat2=c(2.144066829311161,47.85201791739933))
 xy2lonlat = function(xy1,lonlat1,xy2,lonlat2) {
   return(function(xy){
+    xy = matrix(xy,ncol=2)
     x=xy[,1]; y=xy[,2]
     cbind(
       (x-xy1[1])/(xy2[1]-xy1[1]) * (lonlat2[1]-lonlat1[1]) +lonlat1[1],
@@ -8,12 +13,9 @@ xy2lonlat = function(xy1,lonlat1,xy2,lonlat2) {
   })
 }
 
-#' @test map_geo("Geo_Loire_V6.slf", xy1=c(664649.1875,	6736072.5),
-#'                                 lonlat1=c(2.528116,47.723969),
-#'                                 xy2=c(635994.0,	6750523.0),
-#'                                 lonlat2=c(2.144066829311161,47.85201791739933),
-#'                                 raster=raster::getData(name="GADM", country="FRA", level=5))
-map_geo = function(geo.slf, xy1, lonlat1,xy2,lonlat2, raster=NULL, title=NULL,xlab="lon",ylab="lat",...) {
+#' @test map_geo("Geo_Loire_V6.slf")
+#' @test map_geo("Geo_Loire_V6.slf", lonlat, raster=raster::getData(name="GADM", country="FRA", level=5))
+map_geo = function(geo.slf, lonlat=NULL, raster=NULL, title=NULL,xlab=if (is.null(lonlat)) "x" else "lon",ylab=if (is.null(lonlat)) "y" else "lat",...) {
   geo = telemac::read_geo(geo.slf)
 
   col.fun = colorRamp(c("blue", "green", "red"))
@@ -21,10 +23,13 @@ map_geo = function(geo.slf, xy1, lonlat1,xy2,lonlat2, raster=NULL, title=NULL,xl
   cols = col.fun(col.val)/255
   cols[is.na(cols)] = 0
 
-  geo_lonlat = lonlat(cbind(geo$x,geo$y))
+  if (is.null(lonlat))
+    geo_lonlat = cbind(geo$x,geo$y)
+  else 
+    geo_lonlat = lonlat(cbind(geo$x,geo$y))
 
   if (is.null(raster)) {
-    plot(apply(geo_lonlat,1,min),apply(geo_lonlat,1,max),type='n',main=title, xlab=xlab,ylab=ylab,...)
+    plot(apply(geo_lonlat,1,min),apply(geo_lonlat,1,max),type='n',main=title, xlab=xlab,ylab=ylab, ...)
   } else {
     #if (typeof(raster)!="raster") 
     #  stop("raster should come from raster::getData")
