@@ -50,7 +50,7 @@ read_calage = function(calage.f, lonlat=NULL) {
     }
     for (n in names(p)) { # now process Y* 
       if (substr(n,0,1)=="Y") {
-        p[[paste0("XY",substr(n,1))]] = cbind(p[paste0("XY",substr(n,1))], p[[n]])
+        p[[paste0("XY",substr(n,1))]] = cbind(p[[paste0("XY",substr(n,1))]], p[[n]])
         p[[n]] <- NULL
       }
     }
