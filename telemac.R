@@ -9,10 +9,10 @@ read_poi = function(file.poi, lonlat=NULL) {
   p = list()
   for (pi_txt in strsplit(p_txt,"\n",fixed=T)[[1]]) {
     if (!any(is.na(as.numeric(strsplit(gsub("(.*)=","",pi_txt),",",fixed=T)[[1]])))) # not yet supports x1,y1:nx,ny:x2,y2 format
-    eval(parse(text=
-                 paste0("p$",
-                        gsub("=","=c(",pi_txt,fixed=T),")")
-                 ))
+      eval(parse(text=
+                   paste0("p$",
+                          gsub("=","=c(",pi_txt,fixed=T),")")
+      ))
   }
   if (is.null(lonlat))
     return(p)
@@ -42,18 +42,18 @@ read_calage = function(calage.f, lonlat=NULL) {
   if (is.null(lonlat))
     return(XY)
   else {
-    for (n in names(p)) { # just process X* 
-      if (substr(n,0,1)=="X") {
-        p[[paste0("XY",substr(n,1))]] = p[[n]]
-        p[[n]] <- NULL
+    for (n in names(XY)) { # just process X* 
+      if (substr(n,1,1)=="X") {
+        XY[[paste0("XY",substr(n,2,100))]] = XY[[n]]
+        XY[[n]] <- NULL
       }
     }
-    for (n in names(p)) { # now process Y* 
-      if (substr(n,0,1)=="Y") {
-        p[[paste0("XY",substr(n,1))]] = cbind(p[[paste0("XY",substr(n,1))]], p[[n]])
-        p[[n]] <- NULL
+    for (n in names(XY)) { # now process Y* 
+      if (substr(n,1,1)=="Y") {
+        XY[[paste0("XY",substr(n,2,100))]] = cbind(XY[[paste0("XY",substr(n,2,100))]], XY[[n]])
+        XY[[n]] <- NULL
       }
     }
-    return(lapply(p,lonlat))
+    return(lapply(XY,lonlat))
   }
 }
