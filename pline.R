@@ -13,7 +13,8 @@
 #' points(matrix(pline_fun(p_m=0),ncol=2),col='blue',pch=20)
 #' points(matrix(pline_fun(p_m=1000),ncol=2),col='blue',pch=20)
 #' points(matrix(pline_fun(p_m=8000),ncol=2),col='blue',pch=20)
-pline_fun = function(p_m=NULL, p_01=NULL, .points = .coords_points, .z = .z_points, norm=FALSE) {
+pline_fun = function(p_m=NULL, p_01=NULL, .points = NULL, .z = NULL, norm=FALSE) {
+  if (is.null(.points)) stop("parameter .points must be set")
   if (!is.null(p_m) & !is.null(p_01)) stop("parameter p_m XOR p_01 must be set")
   if (is.null(p_m) & is.null(p_01)) stop("parameter p_m XOR p_01 must be set")
   if (!is.null(p_01)) {
