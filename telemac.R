@@ -21,12 +21,12 @@ read_poi = function(file.poi, lonlat=NULL) {
 }
 
 #' @test map_geo("Geo_Loire_V6.slf")
-#'       C = read_calage("user_fortran/calage_TVF_1.f")
+#'       C = read_user_fortran("user_fortran/calage_TVF_1.f")
 #'       for (i in 1:8) {
 #'         polygon(x=C[[paste0("XYSOM",i)]][,1],y=C[[paste0("XYSOM",i)]][,2],col = rgb(0,0,0,0.05),border = 'gray')
 #'         text(mean(C[[paste0("XYSOM",i)]][,1])+0,mean(C[[paste0("XYSOM",i)]][,2])+0,label=paste0("ks",i),col='darkgray',cex=0.5)
 #'       }
-read_calage = function(calage.f, lonlat=NULL) {
+read_user_fortran = function(calage.f, lonlat=NULL) {
   calage = readChar(calage.f, file.info(calage.f)$size)
   calage = strsplit(calage,"\n",fixed=T)[[1]]
   XY=list()
@@ -36,7 +36,12 @@ read_calage = function(calage.f, lonlat=NULL) {
       if (isTRUE(grep("(.+)\\(\\d+\\)(\\s*)=(\\s*)(\\d+)",calage[i])>0))
         eval(parse(text=
                      paste0("XY$",
-                            gsub(" ","",fixed=T,gsub(")","]",fixed=TRUE, gsub("(","[",fixed = TRUE,x=calage[i]))))
+                            gsub("D0","",fixed=T,
+                            gsub(" ","",fixed=T,
+                            gsub(")","]",fixed=T,
+                            gsub("(","[",fixed = T,
+                              x=calage[i]
+                            )))))
         ))
   }
   if (is.null(lonlat))
