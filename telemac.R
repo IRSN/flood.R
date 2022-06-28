@@ -23,8 +23,8 @@ read_poi = function(file.poi, lonlat=NULL) {
 #' @test map_geo("Geo_Loire_V6.slf")
 #'       C = read_calage("user_fortran/calage_TVF_1.f")
 #'       for (i in 1:8) {
-#'         polygon(x=C[[paste0("XSOM",i)]],y=C[[paste0("YSOM",i)]],col = rgb(0,0,0,0.05),border = 'gray')
-#'         text(mean(C[[paste0("XSOM",i)]])+0,mean(C[[paste0("YSOM",i)]])+0,label=paste0("ks",i),col='darkgray',cex=0.5)
+#'         polygon(x=C[[paste0("XYSOM",i)]][,1],y=C[[paste0("XYSOM",i)]][,2],col = rgb(0,0,0,0.05),border = 'gray')
+#'         text(mean(C[[paste0("XYSOM",i)]][,1])+0,mean(C[[paste0("XYSOM",i)]][,2])+0,label=paste0("ks",i),col='darkgray',cex=0.5)
 #'       }
 read_calage = function(calage.f, lonlat=NULL) {
   calage = readChar(calage.f, file.info(calage.f)$size)

@@ -40,7 +40,7 @@ map_geo = function(geo.slf, lonlat=NULL, raster="openstreetmap", col.alpha=0.15,
   } else {
     #if (typeof(raster)!="raster") 
     #  stop("raster should come from raster::getData")
-    plot(raster, xlim=c(min(geo_lonlat[,1]),max(geo_lonlat[,1])),ylim=c(min(geo_lonlat[,2]),max(geo_lonlat[,2])), main=title, xlab=xlab, ylab=ylab, ...)
+    plot(raster, main=title, xlab=xlab, ylab=ylab, ...) #xlim=c(min(geo_lonlat[,1]),max(geo_lonlat[,1])),ylim=c(min(geo_lonlat[,2]),max(geo_lonlat[,2])),
   }
   
   points(geo_lonlat[,1],geo_lonlat[,2], col = rgb(cols[,1],cols[,2],cols[,3],col.alpha),pch=pch)
